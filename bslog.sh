@@ -29,3 +29,27 @@ function BSLOG_LOG() {
   echo "${COLOR}${MESSAGE}${RESET}"
   echo "[$timeAndDate] ${STATUS} ${MESSAGE}" >> $SCRIPT_LOG
 }
+
+function logdebug() {
+  BSLOG "DEBUG" "$1"
+}
+
+function logerror() {
+  BSLOG "ERROR" "$1"
+}
+
+function logwarning() {
+  BSLOG "WARNING" "$1"
+}
+
+function logsuccess() {
+  BSLOG "SUCCESS" "$1"
+}
+
+function loginfo() {
+  BSLOG "INFO" "$1"
+}
+
+function log() {
+  BSLOG "INFO" "$1"
+}
