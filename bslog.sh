@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_LOG=./bslog.log
+SCRIPT_LOG=/var/log/bslog.log
 touch $SCRIPT_LOG
 
 function BSLOG() {
