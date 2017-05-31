@@ -1,11 +1,14 @@
 #!/bin/sh
 
-USERNAME=`whoami`
-SCRIPT_LOG="/Users/${USERNAME}/bslog.log"
+SCRIPT_LOG="$(echo $HOME)/bslog.log"
+BSLOG_FLAG_LOG_TO_FILE=false
+
 touch $SCRIPT_LOG
 
-## @todo check for error if couldn't write to log.
-echo "Log file located at ${SCRIPT_LOG}"
+if [[ "$?" == "0" ]]; then
+  echo "Log file located at ${SCRIPT_LOG}"
+  BSLOG_FLAG_LOG_TO_FILE=true
+fi
 
 function BSLOG_LOG() {
   local RESET='\033[00;00m' # normal white
@@ -14,7 +17,9 @@ function BSLOG_LOG() {
   local MESSAGE=$3
   local timeAndDate=`date`
   echo "${COLOR}${MESSAGE}${RESET}"
-  echo "[$timeAndDate] ${STATUS} ${MESSAGE}" >> $SCRIPT_LOG
+  if [[ "$BSLOG_FLAG_LOG_TO_FILE" == true ]]; then
+    echo "[$timeAndDate] ${STATUS} ${MESSAGE}" >> $SCRIPT_LOG
+  fi
 }
 
 function BSLOG() {
