@@ -1,7 +1,21 @@
 #!/bin/sh
 
-SCRIPT_LOG=/var/log/bslog.log
+USERNAME=`whoami`
+SCRIPT_LOG="/Users/${USERNAME}/bslog.log"
 touch $SCRIPT_LOG
+
+## @todo check for error if couldn't write to log.
+echo "Log file located at ${SCRIPT_LOG}"
+
+function BSLOG_LOG() {
+  local RESET='\033[00;00m' # normal white
+  local COLOR=$1
+  local STATUS=$2
+  local MESSAGE=$3
+  local timeAndDate=`date`
+  echo "${COLOR}${MESSAGE}${RESET}"
+  echo "[$timeAndDate] ${STATUS} ${MESSAGE}" >> $SCRIPT_LOG
+}
 
 function BSLOG() {
   local COLOR_DEBUG='\033[00;34m' # normal blue
@@ -18,16 +32,6 @@ function BSLOG() {
     "INFO") BSLOG_LOG $COLOR_INFO            "INFO     " "${MESSAGE}";;
     *) BSLOG_LOG $COLOR_INFO            "INFO     " "${MESSAGE}";;
   esac
-}
-
-function BSLOG_LOG() {
-  local RESET='\033[00;00m' # normal white
-  local COLOR=$1
-  local STATUS=$2
-  local MESSAGE=$3
-  local timeAndDate=`date`
-  echo "${COLOR}${MESSAGE}${RESET}"
-  echo "[$timeAndDate] ${STATUS} ${MESSAGE}" >> $SCRIPT_LOG
 }
 
 function logdebug() {
